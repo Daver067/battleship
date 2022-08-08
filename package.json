@@ -39,6 +39,7 @@
   "homepage": "https://github.com/Daver067/battleship#readme",
   "devDependencies": {
     "@babel/core": "^7.18.10",
+    "@babel/plugin-transform-modules-commonjs": "^7.18.6",
     "@babel/preset-env": "^7.18.10",
     "babel-jest": "^28.1.3",
     "babel-loader": "^8.2.5",
