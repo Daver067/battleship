@@ -5,12 +5,12 @@ function Ship(name, length) {
     locations: [],
     numHits: 0,
 
-    placeShip(startingCellx, startingCelly, axis) {
+    placeShip(startingCelly, startingCellx, axis) {
       this.locations.push({
         x_axis: startingCellx,
         y_axis: startingCelly,
         hit: false,
-        cell: `${startingCellx}-${startingCelly}`,
+        cell: `${startingCelly}-${startingCellx}`,
       });
       function increaseXAxis() {
         for (let i = 1; i < this.length; i++) {
@@ -18,7 +18,7 @@ function Ship(name, length) {
             x_axis: startingCellx + 1 * i,
             y_axis: startingCelly,
             hit: false,
-            cell: `${startingCellx + 1 * i}-${startingCelly}`,
+            cell: `${startingCelly}-${startingCellx + 1 * i}`,
           };
           this.locations.push(newLocation);
         }
@@ -29,7 +29,7 @@ function Ship(name, length) {
             x_axis: startingCellx,
             y_axis: startingCelly + 1 * i,
             hit: false,
-            cell: `${startingCellx}-${startingCelly + 1 * i}`,
+            cell: `${startingCelly + 1 * i}-${startingCellx}`,
           };
           this.locations.push(newLocation);
         }
@@ -41,7 +41,7 @@ function Ship(name, length) {
       return this.locations;
     },
 
-    hit(cellHitX, cellHitY) {
+    hit(cellHitY, cellHitX) {
       this.locations.forEach((location) => {
         if (location.x_axis === cellHitX && location.y_axis === cellHitY) {
           location.hit = true;

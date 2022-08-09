@@ -26,14 +26,14 @@ function updateGameboardWithNewShipLocation(thisGameboard, ship) {
 // this function runs through all cells in gameboard and ensures the location the ship is in is a valid location
 function checkValidShipLocation(
   currentGameboard,
-  newShipStartingx,
   newShipStartingy,
+  newShipStartingx,
   axis,
   newShipSize
 ) {
   let validLocation = 0;
   const newShip = new Ship("doesnt matter", newShipSize);
-  newShip.placeShip(newShipStartingx, newShipStartingy, axis);
+  newShip.placeShip(newShipStartingy, newShipStartingx, axis);
   currentGameboard.forEach((row) => {
     row.forEach((cell) => {
       newShip.locations.forEach((shipLocation) => {
@@ -43,7 +43,7 @@ function checkValidShipLocation(
       });
     });
   });
-  if (validLocation !== newShip.locations.length) {
+  if (validLocation !== newShipSize) {
     return "error";
   }
 }
@@ -52,27 +52,70 @@ function Gameboard(owner) {
   return {
     owner,
     gameboard: buildGameboard(),
-
-    placeShip(shipname, shipSize, startingx, startingy, axis) {
+    ships: [
+      new Ship("carrier", 5),
+      new Ship("battleship", 4),
+      new Ship("cruiser", 3),
+      new Ship("sub", 3),
+      new Ship("patrolBoat", 2),
+    ],
+    placeShip(shipIndex, startingy, startingx, axis) {
       if (
         checkValidShipLocation(
           this.gameboard,
-          startingx,
           startingy,
+          startingx,
           axis,
-          shipSize
+          this.ships[shipIndex].length
         ) === "error"
       ) {
         return "error";
       }
 
-      const ship = new Ship(shipname, shipSize);
-      ship.placeShip(startingx, startingy, axis);
+      const ship = this.ships[shipIndex];
+      ship.placeShip(startingy, startingx, axis);
       const newGameboard = updateGameboardWithNewShipLocation(
         this.gameboard,
         ship
       );
       this.gameboard = newGameboard;
+    },
+    receiveAttack(yAxis, xAxis) {
+      if (this.gameboard[yAxis][xAxis].boat === null) {
+        this.gameboard[yAxis][xAxis].shotHere = true;
+        return "miss";
+      }
+      let boatIndex;
+      switch (this.gameboard[yAxis][xAxis].boat) {
+        case "carrier":
+          boatIndex = 0;
+          break;
+        case "battleship":
+          boatIndex = 1;
+          break;
+        case "cruiser":
+          boatIndex = 2;
+          break;
+        case "sub":
+          boatIndex = 3;
+          break;
+        case "patrolBoat":
+          boatIndex = 4;
+          break;
+        default:
+          boatIndex = "error";
+      }
+      this.ships[boatIndex].hit(yAxis, xAxis);
+      return `${this.gameboard[yAxis][xAxis].boat} was hit!`;
+    },
+    allSunk() {
+      let numberSunk = 0;
+      this.ships.forEach((ship) => {
+        if (ship.isSunk()) {
+          numberSunk++;
+        }
+      });
+      return numberSunk === 5;
     },
   };
 }
