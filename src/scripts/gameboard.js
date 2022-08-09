@@ -1,5 +1,6 @@
 import { Ship } from "./ship";
 
+// builds the gameboard inside the gameboard function
 function buildGameboard() {
   const gameboard = [];
   for (let i = 0; i < 7; i++) {
@@ -13,6 +14,7 @@ function buildGameboard() {
   return gameboard;
 }
 
+// during place ship in gameboard this function updates the gameboard with the ship location
 function updateGameboardWithNewShipLocation(thisGameboard, ship) {
   let returnGameboard = thisGameboard;
   ship.locations.forEach((location) => {
@@ -21,12 +23,49 @@ function updateGameboardWithNewShipLocation(thisGameboard, ship) {
   return returnGameboard;
 }
 
+// this function runs through all cells in gameboard and ensures the location the ship is in is a valid location
+function checkValidShipLocation(
+  currentGameboard,
+  newShipStartingx,
+  newShipStartingy,
+  axis,
+  newShipSize
+) {
+  let validLocation = 0;
+  const newShip = new Ship("doesnt matter", newShipSize);
+  newShip.placeShip(newShipStartingx, newShipStartingy, axis);
+  currentGameboard.forEach((row) => {
+    row.forEach((cell) => {
+      newShip.locations.forEach((shipLocation) => {
+        if (shipLocation.cell === cell.cell && cell.boat === null) {
+          validLocation++;
+        }
+      });
+    });
+  });
+  if (validLocation !== newShip.locations.length) {
+    return "error";
+  }
+}
+
 function Gameboard(owner) {
   return {
     owner,
     gameboard: buildGameboard(),
 
     placeShip(shipname, shipSize, startingx, startingy, axis) {
+      if (
+        checkValidShipLocation(
+          this.gameboard,
+          startingx,
+          startingy,
+          axis,
+          shipSize
+        ) === "error"
+      ) {
+        return "error";
+      }
+
       const ship = new Ship(shipname, shipSize);
       ship.placeShip(startingx, startingy, axis);
       const newGameboard = updateGameboardWithNewShipLocation(

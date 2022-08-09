@@ -88,9 +88,17 @@ test("placing a ship will update the gameboard with ships location", () => {
 });
 
 // place ship will throw an error if the ship is placed out of bounds
+test("placing a ship out of bounds will throw an error", () => {
+  const newGameboard = new Gameboard("daver");
+  expect(newGameboard.placeShip("cruiser", 3, 6, 6, "x")).toMatch("error");
+});
 
 // place ship will throw an error if the ship is placed on top of another ship
-
+test("placing a ship out of bounds will throw an error", () => {
+  const newGameboard = new Gameboard("daver");
+  newGameboard.placeShip("carrier", 5, 0, 0, "y");
+  expect(newGameboard.placeShip("cruiser", 3, 0, 0, "x")).toMatch("error");
+});
 // recieve attack will properly identify a miss
 
 // recieve attack will determine a hit
