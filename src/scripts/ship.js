@@ -56,16 +56,4 @@ function Ship(name, length) {
   };
 }
 
-function allBoats() {
-  const carrier = new Ship("carrier", "5");
-  const battleship = new Ship("battleship", "4");
-  const cruiser = new Ship("cruiser", "4");
-  const sub = new Ship("sub", "3");
-  const patrolBoat = new Ship("patrolBoat", "3");
-
-  const allShips = { carrier, battleship, cruiser, sub, patrolBoat };
-  return allShips;
-}
-let allShips = allBoats();
-
-export { Ship, allShips };
+export { Ship };

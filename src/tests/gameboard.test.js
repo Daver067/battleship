@@ -74,7 +74,7 @@ test("builds an empty gameboard", () => {
 // place ship will return the gameboard updated with the ship location
 test("placing a ship will update the gameboard with ships location", () => {
   const newGameboard = new Gameboard("daver");
-  newGameboard.placeShip(2, 0, 0, "x");
+  newGameboard.placeShip("cruiser", 0, 0, "x");
   const expected = [
     { boat: "cruiser", shotHere: false, cell: "0-0" },
     { boat: "cruiser", shotHere: false, cell: "0-1" },
@@ -90,20 +90,20 @@ test("placing a ship will update the gameboard with ships location", () => {
 // place ship will throw an error if the ship is placed out of bounds
 test("placing a ship out of bounds will throw an error", () => {
   const newGameboard = new Gameboard("daver");
-  expect(newGameboard.placeShip(3, 6, 6, "x")).toMatch("error");
+  expect(newGameboard.placeShip("sub", 6, 6, "x")).toMatch("error");
 });
 
 // place ship will throw an error if the ship is placed on top of another ship
 test("placing a ship out of bounds will throw an error", () => {
   const newGameboard = new Gameboard("daver");
-  newGameboard.placeShip(0, 0, 0, "y");
-  expect(newGameboard.placeShip(2, 0, 0, "x")).toMatch("error");
+  newGameboard.placeShip("carrier", 0, 0, "y");
+  expect(newGameboard.placeShip("cruiser", 0, 0, "x")).toMatch("error");
 });
 
 // receive attack will properly identify a miss
 test("receive attack will miss on an empty square", () => {
   const newGameboard = new Gameboard("daver");
-  newGameboard.placeShip(2, 0, 0, "x");
+  newGameboard.placeShip("cruiser", 0, 0, "x");
   expect(newGameboard.receiveAttack(5, 5)).toMatch("miss");
   expect(newGameboard.gameboard[5][5]).toStrictEqual({
     boat: null,
@@ -115,7 +115,7 @@ test("receive attack will miss on an empty square", () => {
 // receive attack will determine a hit
 test("receive attack will hit a boat in a square", () => {
   const newGameboard = new Gameboard("daver");
-  newGameboard.placeShip(2, 0, 0, "x");
+  newGameboard.placeShip("cruiser", 0, 0, "x");
   expect(newGameboard.receiveAttack(0, 2)).toMatch("cruiser was hit");
   expect(newGameboard.ships[2].locations[2].hit).toBeTruthy();
 });
@@ -129,11 +129,11 @@ test("no hits on boats will return false", () => {
 // allSunk will return true when all are sunk
 test("lets place and hit all boats", () => {
   const newGameboard = new Gameboard("daver");
-  newGameboard.placeShip(0, 0, 0, "x");
-  newGameboard.placeShip(1, 1, 0, "x");
-  newGameboard.placeShip(2, 2, 0, "x");
-  newGameboard.placeShip(3, 3, 0, "x");
-  newGameboard.placeShip(4, 4, 0, "x");
+  newGameboard.placeShip("carrier", 0, 0, "x");
+  newGameboard.placeShip("battleship", 1, 0, "x");
+  newGameboard.placeShip("cruiser", 2, 0, "x");
+  newGameboard.placeShip("sub", 3, 0, "x");
+  newGameboard.placeShip("patrolBoat", 4, 0, "x");
   newGameboard.receiveAttack(0, 0);
   newGameboard.receiveAttack(0, 1);
   newGameboard.receiveAttack(0, 2);

@@ -14,6 +14,31 @@ function buildGameboard() {
   return gameboard;
 }
 
+// checks the input for ship type and changes it to the proper index number
+function getShipIndex(shipName) {
+  let shipIndex;
+  switch (shipName) {
+    case "carrier":
+      shipIndex = 0;
+      break;
+    case "battleship":
+      shipIndex = 1;
+      break;
+    case "cruiser":
+      shipIndex = 2;
+      break;
+    case "sub":
+      shipIndex = 3;
+      break;
+    case "patrolBoat":
+      shipIndex = 4;
+      break;
+    default:
+      console.log("invalid boat name");
+  }
+  return shipIndex;
+}
+
 // during place ship in gameboard this function updates the gameboard with the ship location
 function updateGameboardWithNewShipLocation(thisGameboard, ship) {
   let returnGameboard = thisGameboard;
@@ -32,7 +57,7 @@ function checkValidShipLocation(
   newShipSize
 ) {
   let validLocation = 0;
-  const newShip = new Ship("doesnt matter", newShipSize);
+  const newShip = new Ship("theTestBoat", newShipSize);
   newShip.placeShip(newShipStartingy, newShipStartingx, axis);
   currentGameboard.forEach((row) => {
     row.forEach((cell) => {
@@ -59,7 +84,8 @@ function Gameboard(owner) {
       new Ship("sub", 3),
       new Ship("patrolBoat", 2),
     ],
-    placeShip(shipIndex, startingy, startingx, axis) {
+    placeShip(shipName, startingy, startingx, axis) {
+      const shipIndex = getShipIndex(shipName);
       if (
         checkValidShipLocation(
           this.gameboard,
@@ -74,37 +100,14 @@ function Gameboard(owner) {
 
       const ship = this.ships[shipIndex];
       ship.placeShip(startingy, startingx, axis);
-      const newGameboard = updateGameboardWithNewShipLocation(
-        this.gameboard,
-        ship
-      );
-      this.gameboard = newGameboard;
+      this.gameboard = updateGameboardWithNewShipLocation(this.gameboard, ship);
     },
     receiveAttack(yAxis, xAxis) {
       if (this.gameboard[yAxis][xAxis].boat === null) {
         this.gameboard[yAxis][xAxis].shotHere = true;
         return "miss";
       }
-      let boatIndex;
-      switch (this.gameboard[yAxis][xAxis].boat) {
-        case "carrier":
-          boatIndex = 0;
-          break;
-        case "battleship":
-          boatIndex = 1;
-          break;
-        case "cruiser":
-          boatIndex = 2;
-          break;
-        case "sub":
-          boatIndex = 3;
-          break;
-        case "patrolBoat":
-          boatIndex = 4;
-          break;
-        default:
-          boatIndex = "error";
-      }
+      const boatIndex = getShipIndex(this.gameboard[yAxis][xAxis].boat);
       this.ships[boatIndex].hit(yAxis, xAxis);
       return `${this.gameboard[yAxis][xAxis].boat} was hit!`;
     },
