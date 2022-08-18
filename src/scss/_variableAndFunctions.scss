@@ -1,0 +1,19 @@
+@mixin flexCenter($direction) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $direction;
+}
+
+$test-border: 1px solid black;
+
+$font-weights: (
+  "light": 300,
+  "regular": 400,
+  "medium": 500,
+  "bold": 700,
+);
+
+@function weight($weight-name) {
+  @return map-get($map: $font-weights, $key: $weight-name);
+}

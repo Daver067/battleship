@@ -1,0 +1,75 @@
+@import "../scss/variableAndFunctions";
+
+.moduleBackground {
+  // @include flexCenter(row);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 1);
+  h1 {
+    color: black;
+    align-self: center;
+    font-size: 5rem;
+    text-align: center;
+    padding: 0.25em 0;
+  }
+}
+
+.carrier {
+  display: flex;
+  height: 5vw;
+  width: 25vw;
+  background-color: grey;
+  margin: auto;
+}
+.battleship {
+  display: flex;
+  height: 5vw;
+  width: 20vw;
+  background-color: grey;
+  margin: auto;
+}
+.cruiser {
+  display: flex;
+  height: 5vw;
+  width: 15vw;
+  background-color: grey;
+  margin: auto;
+}
+.sub {
+  display: flex;
+  height: 5vw;
+  width: 15vw;
+  background-color: grey;
+  margin: auto;
+}
+.patrolBoat {
+  display: flex;
+  height: 5vw;
+  width: 10vw;
+  background-color: grey;
+  margin: auto;
+}
+
+.shipAndFlip {
+  display: flex;
+  flex-direction: column;
+  h2 {
+    color: black;
+    align-self: center;
+    font-size: 3rem;
+    text-align: center;
+    padding: 0.5em 0 0 0;
+  }
+}
+
+#rotate {
+  height: 5vw;
+  padding: 0 2em;
+  align-self: center;
+  font-size: 1.25rem;
+  margin: 0 0 1em 0;
+  border-radius: 18px;
+}
