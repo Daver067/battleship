@@ -19,38 +19,63 @@
 
 .carrier {
   display: flex;
-  height: 5vw;
-  width: 25vw;
+  height: 2.5vw;
+  width: 12.5vw;
   background-color: grey;
   margin: auto;
+  &.flip {
+    height: 12.5vw;
+    width: 2.5vw;
+    flex-direction: column;
+  }
 }
 .battleship {
   display: flex;
-  height: 5vw;
-  width: 20vw;
-  background-color: grey;
-  margin: auto;
-}
-.cruiser {
-  display: flex;
-  height: 5vw;
-  width: 15vw;
-  background-color: grey;
-  margin: auto;
-}
-.sub {
-  display: flex;
-  height: 5vw;
-  width: 15vw;
-  background-color: grey;
-  margin: auto;
-}
-.patrolBoat {
-  display: flex;
-  height: 5vw;
+  height: 2.5vw;
   width: 10vw;
   background-color: grey;
   margin: auto;
+  &.flip {
+    height: 10vw;
+    width: 2.5vw;
+    flex-direction: column;
+  }
+}
+.cruiser {
+  display: flex;
+  height: 2.5vw;
+  width: 7.5vw;
+  background-color: grey;
+  margin: auto;
+  &.flip {
+    height: 7.5vw;
+    width: 2.5vw;
+    flex-direction: column;
+  }
+}
+.sub {
+  display: flex;
+  height: 2.5vw;
+  width: 7.5vw;
+  background-color: grey;
+  margin: auto;
+  &.flip {
+    height: 7.5vw;
+    width: 2.5vw;
+    flex-direction: column;
+  }
+}
+.patrolBoat {
+  display: flex;
+  height: 2.5vw;
+  width: 5vw;
+  background-color: grey;
+  margin: auto;
+  &.flip {
+    height: 5vw;
+    width: 2.5vw;
+    flex-direction: column;
+  }
 }
 
 .shipAndFlip {
@@ -72,4 +97,30 @@
   font-size: 1.25rem;
   margin: 0 0 1em 0;
   border-radius: 18px;
+}
+
+div {
+  & .human {
+    &[boat="carrier"] {
+      background-color: black;
+    }
+    &[boat="battleship"] {
+      background-color: black;
+    }
+    &[boat="cruiser"] {
+      background-color: black;
+    }
+    &[boat="sub"] {
+      background-color: black;
+    }
+    &[boat="patrolBoat"] {
+      background-color: black;
+    }
+    &[boat="null"] {
+      background-color: white;
+      &:hover {
+        background-color: antiquewhite;
+      }
+    }
+  }
 }

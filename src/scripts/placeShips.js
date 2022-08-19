@@ -1,3 +1,4 @@
+import { placeNextShip } from "./domStuff";
 import { GameLoop } from "./gameLoop";
 
 // makes the module for placing ships
@@ -14,7 +15,7 @@ function renderShipModule(shipToPlace) {
     createNewElement(
       "div",
       "shipAndFlip",
-      `<h2>place your ${shipToPlace.name}</h2><button id="rotate">Rotate Ship</button>`
+      `<h2>Click on a square to place your ${shipToPlace.name}</h2><button id="rotate">Rotate Ship</button>`
     ),
     "#shipType"
   );
@@ -26,11 +27,20 @@ function renderShipModule(shipToPlace) {
     createNewElement("div", `${shipToPlace.name}`, `${shipToPlaceInnerHtml}`),
     "#shipType"
   );
+  addShipPlacementListener(shipToPlace);
+  rotateEventListener(shipToPlace.name);
 }
 
-function rotateShip() {
-  // swap the height and width of the ship div
-  // change from flex-direction: row; to column
+function rotateEventListener(shipName) {
+  document.querySelector("button").addEventListener("click", () => {
+    rotateShip(shipName);
+  });
+}
+
+// function to rotate the ship on the page
+function rotateShip(shipName) {
+  const shipDom = document.querySelector(`.${shipName}`);
+  shipDom.classList.toggle("flip");
 }
 
 // build the player 1 gameboard
@@ -53,17 +63,41 @@ function buildPlacementBoard(player) {
   return playerBoardContainer;
 }
 
-//
+// renders dom elements to the page
 function renderObject(DomItemToRender, whereToRender) {
   const renderLocation = document.querySelector(whereToRender);
   renderLocation.appendChild(DomItemToRender);
 }
 
+//creates element, adds a class, and innerHTML
 function createNewElement(type, addClass, innerHTML) {
   const domElement = document.createElement(type);
   domElement.classList.add(addClass);
   domElement.innerHTML = innerHTML;
   return domElement;
+}
+
+// event listeners for placing ships
+function addShipPlacementListener(shipName) {
+  const board = document.querySelector(".gridify");
+  board.addEventListener("mousedown", (e) => {
+    const yValue = e.target.attributes[3].value[0];
+    const xValue = e.target.attributes[3].value[2];
+    let axis;
+    document.querySelector(`.${shipName.name}`).classList.contains("flip")
+      ? (axis = "y")
+      : (axis = "x");
+
+    const validPlacement = GameLoop.players[0].gameboard.placeShip(
+      shipName.name,
+      yValue,
+      xValue,
+      axis
+    );
+    if (validPlacement === "error") {
+      console.log("you can't place a ship there!");
+    } else placeNextShip();
+  });
 }
 
 export { renderShipModule };

@@ -6,6 +6,8 @@ function Ship(name, length) {
     numHits: 0,
 
     placeShip(startingCelly, startingCellx, axis) {
+      startingCelly = Number(startingCelly);
+      startingCellx = Number(startingCellx);
       this.locations.push({
         x_axis: startingCellx,
         y_axis: startingCelly,

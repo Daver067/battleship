@@ -12,13 +12,37 @@ const allEventListeners = {
       GameLoop.setPlayers(player1);
       erasePageContent();
       // place your ships
-      renderShipModule(GameLoop.players[0].gameboard.ships[3]);
-      //renderBoard(GameLoop.players[0], GameLoop.players[0].humanOrComp);
-
-      // renderBoard(GameLoop.players[1], GameLoop.players[1].humanOrComp);
+      placeNextShip();
     });
   },
 };
+
+function placeNextShip() {
+  if (GameLoop.players[0].gameboard.ships[0].locations.length === 0) {
+    renderShipModule(GameLoop.players[0].gameboard.ships[0]);
+  } else if (GameLoop.players[0].gameboard.ships[1].locations.length === 0) {
+    eraseModule();
+    renderShipModule(GameLoop.players[0].gameboard.ships[1]);
+  } else if (GameLoop.players[0].gameboard.ships[2].locations.length === 0) {
+    eraseModule();
+    renderShipModule(GameLoop.players[0].gameboard.ships[2]);
+  } else if (GameLoop.players[0].gameboard.ships[3].locations.length === 0) {
+    eraseModule();
+    renderShipModule(GameLoop.players[0].gameboard.ships[3]);
+  } else if (GameLoop.players[0].gameboard.ships[4].locations.length === 0) {
+    eraseModule();
+    renderShipModule(GameLoop.players[0].gameboard.ships[4]);
+  } else {
+    eraseModule();
+    console.log("start game!");
+  }
+}
+
+function eraseModule() {
+  const body = document.querySelector("body");
+  const module = document.querySelector(".moduleBackground");
+  body.removeChild(module);
+}
 
 function erasePageContent() {
   const container = document.querySelector(".container");
@@ -56,4 +80,4 @@ function createNewElement(type, addClass, innerHTML) {
   return domElement;
 }
 
-export { allEventListeners, renderBoard };
+export { allEventListeners, renderBoard, placeNextShip };
