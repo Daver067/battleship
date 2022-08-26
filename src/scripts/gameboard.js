@@ -73,6 +73,7 @@ function checkValidShipLocation(
   }
 }
 
+// the main Gameboard object
 function Gameboard(owner) {
   return {
     owner,
@@ -84,6 +85,9 @@ function Gameboard(owner) {
       new Ship("sub", 3),
       new Ship("patrolBoat", 2),
     ],
+
+    // takes the name of the ship, 2 co-ordinates, and an axis and places ship there
+    // updates the gameboard and the ships locations with new location
     placeShip(shipName, startingy, startingx, axis) {
       const shipIndex = getShipIndex(shipName);
       if (
@@ -102,15 +106,19 @@ function Gameboard(owner) {
       ship.placeShip(startingy, startingx, axis);
       this.gameboard = updateGameboardWithNewShipLocation(this.gameboard, ship);
     },
+
+    // takes 2 co-ordinates and updates gameboard with miss or hit
     receiveAttack(yAxis, xAxis) {
+      this.gameboard[yAxis][xAxis].shotHere = true;
       if (this.gameboard[yAxis][xAxis].boat === null) {
-        this.gameboard[yAxis][xAxis].shotHere = true;
         return "miss";
       }
       const boatIndex = getShipIndex(this.gameboard[yAxis][xAxis].boat);
       this.ships[boatIndex].hit(yAxis, xAxis);
       return `${this.gameboard[yAxis][xAxis].boat} was hit!`;
     },
+
+    // checks all ships on this gameboard whether they are sunk or not.
     allSunk() {
       let numberSunk = 0;
       this.ships.forEach((ship) => {

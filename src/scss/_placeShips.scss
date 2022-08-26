@@ -19,60 +19,60 @@
 
 .carrier {
   display: flex;
-  height: 2.5vw;
-  width: 12.5vw;
+  height: 2.5vh;
+  width: 12.5vh;
   background-color: grey;
   margin: auto;
   &.flip {
-    height: 12.5vw;
-    width: 2.5vw;
+    height: 12.5vh;
+    width: 2.5vh;
     flex-direction: column;
   }
 }
 .battleship {
   display: flex;
-  height: 2.5vw;
-  width: 10vw;
+  height: 2.5vh;
+  width: 10vh;
   background-color: grey;
   margin: auto;
   &.flip {
-    height: 10vw;
-    width: 2.5vw;
+    height: 10vh;
+    width: 2.5vh;
     flex-direction: column;
   }
 }
 .cruiser {
   display: flex;
-  height: 2.5vw;
-  width: 7.5vw;
+  height: 2.5vh;
+  width: 7.5vh;
   background-color: grey;
   margin: auto;
   &.flip {
-    height: 7.5vw;
-    width: 2.5vw;
+    height: 7.5vh;
+    width: 2.5vh;
     flex-direction: column;
   }
 }
 .sub {
   display: flex;
-  height: 2.5vw;
-  width: 7.5vw;
+  height: 2.5vh;
+  width: 7.5vh;
   background-color: grey;
   margin: auto;
   &.flip {
-    height: 7.5vw;
-    width: 2.5vw;
+    height: 7.5vh;
+    width: 2.5vh;
     flex-direction: column;
   }
 }
 .patrolBoat {
   display: flex;
-  height: 2.5vw;
-  width: 5vw;
+  height: 2.5vh;
+  width: 5vh;
   background-color: grey;
   margin: auto;
   &.flip {
-    height: 5vw;
+    height: 5vh;
     width: 2.5vw;
     flex-direction: column;
   }
@@ -103,18 +103,33 @@ div {
   & .human {
     &[boat="carrier"] {
       background-color: black;
+      &[shothere="true"] {
+        background-color: red;
+      }
     }
     &[boat="battleship"] {
       background-color: black;
+      &[shothere="true"] {
+        background-color: red;
+      }
     }
     &[boat="cruiser"] {
       background-color: black;
+      &[shothere="true"] {
+        background-color: red;
+      }
     }
     &[boat="sub"] {
       background-color: black;
+      &[shothere="true"] {
+        background-color: red;
+      }
     }
     &[boat="patrolBoat"] {
       background-color: black;
+      &[shothere="true"] {
+        background-color: red;
+      }
     }
     &[boat="null"] {
       background-color: white;

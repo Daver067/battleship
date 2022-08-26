@@ -2,8 +2,8 @@
 
 .gridify {
   margin: auto;
-  width: 25vw;
-  height: 25vw;
+  width: 25vh;
+  height: 25vh;
   display: flex;
   flex-direction: column;
 }
@@ -20,5 +20,22 @@
   &:hover {
     background-color: bisque;
     cursor: pointer;
+  }
+}
+
+div {
+  &[shothere="true"] {
+    background-color: red;
+  }
+  &[boat="null"] {
+    &[shothere="true"] {
+      &::after {
+        background-color: white;
+        @include flexCenter("row");
+        content: "X";
+        height: 100%;
+        width: 100%;
+      }
+    }
   }
 }

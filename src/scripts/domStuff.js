@@ -3,6 +3,7 @@ import { renderShipModule } from "./placeShips";
 
 const allEventListeners = {
   test: true,
+  // listener for starting the game
   addPlayer1Listener: () => {
     const playerForm = document.getElementById("player1");
     playerForm.addEventListener("submit", (e) => {
@@ -14,6 +15,7 @@ const allEventListeners = {
       placeNextShip();
     });
   },
+  // listener for attacking the enemy gameboard
   addAttackListener: () => {
     const enemyBoard = document.querySelector(".computer").firstElementChild;
     enemyBoard.addEventListener("mousedown", (e) => {
@@ -21,10 +23,13 @@ const allEventListeners = {
       const xValue = e.target.attributes[3].value[2];
       GameLoop.players[0].attack(GameLoop.players[1], yValue, xValue);
       reRenderBothBoards();
+      GameLoop.takeTurn(GameLoop.players[1]);
+      //if its already been attacked
     });
   },
 };
 
+// placing the ships one at a time, then starting the game once all placed
 function placeNextShip() {
   if (GameLoop.players[0].gameboard.ships[0].locations.length === 0) {
     renderShipModule(GameLoop.players[0].gameboard.ships[0]);
@@ -42,16 +47,18 @@ function placeNextShip() {
     renderShipModule(GameLoop.players[0].gameboard.ships[4]);
   } else {
     eraseModule();
-    reRenderBothBoards();
+    GameLoop.startGame();
   }
 }
 
+// erases the current place ship module
 function eraseModule() {
   const body = document.querySelector("body");
   const module = document.querySelector(".moduleBackground");
   body.removeChild(module);
 }
 
+// Erases everything on page except for the H1 'battle ship'
 function erasePageContent() {
   const container = document.querySelector(".container");
   while (container.firstChild) {
@@ -59,13 +66,14 @@ function erasePageContent() {
   }
 }
 
+// clears the page, then renders both players boards
 function reRenderBothBoards() {
   erasePageContent();
   renderBoard(GameLoop.players[0], GameLoop.players[0].humanOrComp);
   renderBoard(GameLoop.players[1], GameLoop.players[1].humanOrComp);
 }
 
-// renders a players board
+// renders one players board
 function renderBoard(player, humanOrComp) {
   const container = document.querySelector(".container");
   const playerBoardContainer = createNewElement("div", `${humanOrComp}`, " ");
@@ -89,6 +97,7 @@ function renderBoard(player, humanOrComp) {
   container.appendChild(playerBoardContainer);
 }
 
+// erases all content and gets ready for a new game
 function createStartGamePage() {
   erasePageContent();
   const container = document.querySelector(".container");
@@ -117,4 +126,10 @@ function createNewElement(type, addClass, innerHTML) {
   return domElement;
 }
 
-export { allEventListeners, renderBoard, placeNextShip, createStartGamePage };
+export {
+  allEventListeners,
+  renderBoard,
+  placeNextShip,
+  createStartGamePage,
+  reRenderBothBoards,
+};

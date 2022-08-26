@@ -45,7 +45,10 @@ function Ship(name, length) {
 
     hit(cellHitY, cellHitX) {
       this.locations.forEach((location) => {
-        if (location.x_axis === cellHitX && location.y_axis === cellHitY) {
+        if (
+          Number(location.x_axis) === Number(cellHitX) &&
+          Number(location.y_axis) === Number(cellHitY)
+        ) {
           location.hit = true;
           this.numHits++;
         }

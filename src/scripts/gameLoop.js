@@ -1,4 +1,8 @@
-import { createStartGamePage } from "./domStuff";
+import {
+  allEventListeners,
+  createStartGamePage,
+  reRenderBothBoards,
+} from "./domStuff";
 import { Player } from "./player";
 
 const HelperFunctions = {
@@ -12,20 +16,48 @@ const HelperFunctions = {
 
 const GameLoop = {
   players: [],
-  turnCounter: 0,
-  playersTurn: 0,
+
+  // preps for a new game
   newGame() {
     this.players = [];
-    this.turnCounter = 0;
-    this.playersTurn = 0;
     createStartGamePage();
   },
 
+  // once you have player name and ship locations start a new game
+  startGame() {
+    reRenderBothBoards();
+    this.takeTurn(this.players[0]);
+  },
+
+  // sets up the players
   setPlayers(player1Name) {
     const newPlayers = HelperFunctions.createPlayers(player1Name, "The Enemy");
     this.players = newPlayers;
+    this.players[1].gameboard.placeShip("carrier", 0, 0, "x");
+    this.players[1].gameboard.placeShip("battleship", 1, 0, "x");
+    this.players[1].gameboard.placeShip("cruiser", 2, 0, "x");
+    this.players[1].gameboard.placeShip("sub", 3, 0, "x");
+    this.players[1].gameboard.placeShip("patrolBoat", 4, 0, "x");
   },
-  takeTurn() {},
+
+  // takes the turn of the player listed
+  takeTurn(player) {
+    this.checkForOtherPlayerWin(player);
+    if (player.humanOrComp === "human") {
+      allEventListeners.addAttackListener();
+    } else {
+      player.randomMove(this.players[0]);
+      reRenderBothBoards();
+      this.takeTurn(this.players[0]);
+    }
+  },
+  // on start of turn, checks to see if this player has lost from the previous players move
+  checkForOtherPlayerWin(currentPlayer) {
+    if (currentPlayer.gameboard.allSunk() === true) {
+      // End The Game And Setup for Rematch
+      alert(`${currentPlayer.name} lost the game`);
+    }
+  },
 };
 
 export { GameLoop };
