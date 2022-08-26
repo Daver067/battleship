@@ -1,3 +1,4 @@
+import { createStartGamePage } from "./domStuff";
 import { Player } from "./player";
 
 const HelperFunctions = {
@@ -11,11 +12,20 @@ const HelperFunctions = {
 
 const GameLoop = {
   players: [],
+  turnCounter: 0,
+  playersTurn: 0,
+  newGame() {
+    this.players = [];
+    this.turnCounter = 0;
+    this.playersTurn = 0;
+    createStartGamePage();
+  },
 
   setPlayers(player1Name) {
-    const newPlayers = HelperFunctions.createPlayers(player1Name, "compy");
+    const newPlayers = HelperFunctions.createPlayers(player1Name, "The Enemy");
     this.players = newPlayers;
   },
+  takeTurn() {},
 };
 
 export { GameLoop };

@@ -11,8 +11,16 @@ const allEventListeners = {
       const player1 = playerData.get("player");
       GameLoop.setPlayers(player1);
       erasePageContent();
-      // place your ships
       placeNextShip();
+    });
+  },
+  addAttackListener: () => {
+    const enemyBoard = document.querySelector(".computer").firstElementChild;
+    enemyBoard.addEventListener("mousedown", (e) => {
+      const yValue = e.target.attributes[3].value[0];
+      const xValue = e.target.attributes[3].value[2];
+      GameLoop.players[0].attack(GameLoop.players[1], yValue, xValue);
+      reRenderBothBoards();
     });
   },
 };
@@ -34,7 +42,7 @@ function placeNextShip() {
     renderShipModule(GameLoop.players[0].gameboard.ships[4]);
   } else {
     eraseModule();
-    console.log("start game!");
+    reRenderBothBoards();
   }
 }
 
@@ -51,6 +59,12 @@ function erasePageContent() {
   }
 }
 
+function reRenderBothBoards() {
+  erasePageContent();
+  renderBoard(GameLoop.players[0], GameLoop.players[0].humanOrComp);
+  renderBoard(GameLoop.players[1], GameLoop.players[1].humanOrComp);
+}
+
 // renders a players board
 function renderBoard(player, humanOrComp) {
   const container = document.querySelector(".container");
@@ -62,6 +76,9 @@ function renderBoard(player, humanOrComp) {
     row.forEach((cell) => {
       const cellDiv = createNewElement("div", `${humanOrComp}`, " ");
       cellDiv.classList.add("cell");
+      for (const property in cell) {
+        cellDiv.setAttribute(`${property}`, `${cell[property]}`);
+      }
       rowDiv.appendChild(cellDiv);
     });
     boardContainer.appendChild(rowDiv);
@@ -72,6 +89,26 @@ function renderBoard(player, humanOrComp) {
   container.appendChild(playerBoardContainer);
 }
 
+function createStartGamePage() {
+  erasePageContent();
+  const container = document.querySelector(".container");
+  const form = document.createElement("form");
+  form.method = "post";
+  form.action = "";
+  form.id = "player1";
+  const div = document.createElement("div");
+  div.classList.add("playerName");
+  div.innerHTML =
+    '<label for="player" placeholder="player" required>Player 1 Name:</label><input type="text" name="player" id="player" />';
+  form.appendChild(div);
+  const button = document.createElement("button");
+  button.type = "submit";
+  button.innerHTML = "Submit";
+  form.appendChild(button);
+  container.appendChild(form);
+  allEventListeners.addPlayer1Listener();
+}
+
 // creates a fancy element with class and innterHTML imbedded
 function createNewElement(type, addClass, innerHTML) {
   const domElement = document.createElement(type);
@@ -80,4 +117,4 @@ function createNewElement(type, addClass, innerHTML) {
   return domElement;
 }
 
-export { allEventListeners, renderBoard, placeNextShip };
+export { allEventListeners, renderBoard, placeNextShip, createStartGamePage };

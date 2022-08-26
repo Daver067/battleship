@@ -1,4 +1,4 @@
-import { allEventListeners } from "./scripts/domStuff";
+import { GameLoop } from "./scripts/gameLoop";
 import "./style.scss";
 
-allEventListeners.addPlayer1Listener();
+GameLoop.newGame();
