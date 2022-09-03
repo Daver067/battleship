@@ -2,7 +2,9 @@ import {
   allEventListeners,
   createStartGamePage,
   reRenderBothBoards,
+  addRematchButton,
 } from "./domStuff";
+import { randomShipPlacer } from "./placeShips";
 import { Player } from "./player";
 
 const HelperFunctions = {
@@ -25,7 +27,7 @@ const GameLoop = {
 
   // once you have player name and ship locations start a new game
   startGame() {
-    reRenderBothBoards();
+    reRenderBothBoards(`Click a cell on the enemy Gameboard to attack!`);
     this.takeTurn(this.players[0]);
   },
 
@@ -33,30 +35,36 @@ const GameLoop = {
   setPlayers(player1Name) {
     const newPlayers = HelperFunctions.createPlayers(player1Name, "The Enemy");
     this.players = newPlayers;
-    this.players[1].gameboard.placeShip("carrier", 0, 0, "x");
-    this.players[1].gameboard.placeShip("battleship", 1, 0, "x");
-    this.players[1].gameboard.placeShip("cruiser", 2, 0, "x");
-    this.players[1].gameboard.placeShip("sub", 3, 0, "x");
-    this.players[1].gameboard.placeShip("patrolBoat", 4, 0, "x");
+    this.players[1].gameboard.ships.forEach((ship) => {
+      randomShipPlacer(this.players[1], ship.name);
+    });
   },
 
   // takes the turn of the player listed
   takeTurn(player) {
-    this.checkForOtherPlayerWin(player);
-    if (player.humanOrComp === "human") {
-      allEventListeners.addAttackListener();
+    if (this.checkForOtherPlayerWin(player) === "no winner") {
+      if (player.humanOrComp === "human") {
+        allEventListeners.addAttackListener();
+      } else {
+        const string = player.randomMove(this.players[0]);
+        reRenderBothBoards(`The enemy shot and ${string}`);
+        this.takeTurn(this.players[0]);
+      }
     } else {
-      player.randomMove(this.players[0]);
-      reRenderBothBoards();
-      this.takeTurn(this.players[0]);
+      reRenderBothBoards(this.checkForOtherPlayerWin(player));
+      addRematchButton();
     }
   },
   // on start of turn, checks to see if this player has lost from the previous players move
   checkForOtherPlayerWin(currentPlayer) {
     if (currentPlayer.gameboard.allSunk() === true) {
-      // End The Game And Setup for Rematch
-      alert(`${currentPlayer.name} lost the game`);
+      const winner =
+        this.players.indexOf(currentPlayer) === 0
+          ? this.players[1]
+          : this.players[0];
+      return `${winner.name} won the game! Would you like a rematch?`;
     }
+    return "no winner";
   },
 };
 

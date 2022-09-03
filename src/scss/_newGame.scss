@@ -1,0 +1,22 @@
+@import "../scss/variableAndFunctions";
+
+form {
+  @include flexCenter(column);
+  height: 100%;
+  width: 100%;
+  margin-top: -5vh;
+}
+
+.playerName {
+  font-size: 2rem;
+  & > input {
+    font-size: 1.5rem;
+    padding-left: 0.1em;
+    margin-bottom: 1em;
+  }
+  + button {
+    font-size: 1.5rem;
+    padding: 0.5em;
+    border-radius: 8px;
+  }
+}

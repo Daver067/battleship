@@ -111,11 +111,11 @@ function Gameboard(owner) {
     receiveAttack(yAxis, xAxis) {
       this.gameboard[yAxis][xAxis].shotHere = true;
       if (this.gameboard[yAxis][xAxis].boat === null) {
-        return "miss";
+        return "missed!";
       }
       const boatIndex = getShipIndex(this.gameboard[yAxis][xAxis].boat);
       this.ships[boatIndex].hit(yAxis, xAxis);
-      return `${this.gameboard[yAxis][xAxis].boat} was hit!`;
+      return `hit a ${this.gameboard[yAxis][xAxis].boat}`;
     },
 
     // checks all ships on this gameboard whether they are sunk or not.

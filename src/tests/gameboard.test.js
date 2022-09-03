@@ -116,7 +116,7 @@ test("receive attack will miss on an empty square", () => {
 test("receive attack will hit a boat in a square", () => {
   const newGameboard = new Gameboard("daver");
   newGameboard.placeShip("cruiser", 0, 0, "x");
-  expect(newGameboard.receiveAttack(0, 2)).toMatch("cruiser was hit");
+  expect(newGameboard.receiveAttack(0, 2)).toMatch("hit a cruiser");
   expect(newGameboard.ships[2].locations[2].hit).toBeTruthy();
 });
 

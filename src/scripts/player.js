@@ -8,7 +8,7 @@ function Player(name, humanOrComp) {
     gameboard: new Gameboard(name),
     // takes the oponent, and attacks their gameboard with 2 co-odinates
     attack(enemy, attackYAxis, attackXaxis) {
-      enemy.gameboard.receiveAttack(attackYAxis, attackXaxis);
+      return enemy.gameboard.receiveAttack(attackYAxis, attackXaxis);
     },
 
     // just for computers, takes a list of available moves and atacks it randomly
@@ -26,7 +26,7 @@ function Player(name, humanOrComp) {
 
       const yValue = thisMove.cell[0];
       const xValue = thisMove.cell[2];
-      this.attack(enemy, yValue, xValue);
+      return this.attack(enemy, yValue, xValue);
     },
   };
 }

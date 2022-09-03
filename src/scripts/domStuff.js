@@ -19,12 +19,22 @@ const allEventListeners = {
   addAttackListener: () => {
     const enemyBoard = document.querySelector(".computer").firstElementChild;
     enemyBoard.addEventListener("mousedown", (e) => {
-      const yValue = e.target.attributes[3].value[0];
-      const xValue = e.target.attributes[3].value[2];
-      GameLoop.players[0].attack(GameLoop.players[1], yValue, xValue);
-      reRenderBothBoards();
-      GameLoop.takeTurn(GameLoop.players[1]);
-      //if its already been attacked
+      if (e.target.attributes[2].value === "false") {
+        const yValue = e.target.attributes[3].value[0];
+        const xValue = e.target.attributes[3].value[2];
+        const string = GameLoop.players[0].attack(
+          GameLoop.players[1],
+          yValue,
+          xValue
+        );
+        reRenderBothBoards(`You shot and ${string}`);
+        setTimeout(() => {
+          GameLoop.takeTurn(GameLoop.players[1]);
+        }, 1500);
+      } else {
+        reRenderBothBoards("You can't shoot the same location twice.");
+        allEventListeners.addAttackListener();
+      }
     });
   },
 };
@@ -58,6 +68,13 @@ function eraseModule() {
   body.removeChild(module);
 }
 
+// adds the turn info of any other error issue
+function renderInfo(string) {
+  const container = document.querySelector(".container");
+  const info = createNewElement("h3", "turnInfo", `${string}`);
+  container.appendChild(info);
+}
+
 // Erases everything on page except for the H1 'battle ship'
 function erasePageContent() {
   const container = document.querySelector(".container");
@@ -67,10 +84,22 @@ function erasePageContent() {
 }
 
 // clears the page, then renders both players boards
-function reRenderBothBoards() {
+function reRenderBothBoards(string) {
   erasePageContent();
-  renderBoard(GameLoop.players[0], GameLoop.players[0].humanOrComp);
+  renderInfo(string);
   renderBoard(GameLoop.players[1], GameLoop.players[1].humanOrComp);
+  renderBoard(GameLoop.players[0], GameLoop.players[0].humanOrComp);
+}
+
+function addRematchButton() {
+  const turnInfo = document.querySelector(".turnInfo");
+  const btn = document.createElement("button");
+  btn.textContent = "Yes!";
+  btn.addEventListener("click", () => {
+    erasePageContent();
+    GameLoop.newGame();
+  });
+  turnInfo.appendChild(btn);
 }
 
 // renders one players board
@@ -132,4 +161,6 @@ export {
   placeNextShip,
   createStartGamePage,
   reRenderBothBoards,
+  renderInfo,
+  addRematchButton,
 };

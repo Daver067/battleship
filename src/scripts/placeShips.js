@@ -15,7 +15,7 @@ function renderShipModule(shipToPlace) {
     createNewElement(
       "div",
       "shipAndFlip",
-      `<h2>Click on a square to place your ${shipToPlace.name}</h2><button id="rotate">Rotate Ship</button>`
+      `<h2>Click on a square to place your ${shipToPlace.name}<h2 class="errorMsg"></h2>></h2><button id="rotate">Rotate Ship</button>`
     ),
     "#shipType"
   );
@@ -95,9 +95,27 @@ function addShipPlacementListener(shipName) {
       axis
     );
     if (validPlacement === "error") {
-      console.log("you can't place a ship there!");
+      const errorMsg = document.querySelector(".errorMsg");
+      errorMsg.textContent = "You Cannot place a ship there";
     } else placeNextShip();
   });
 }
 
-export { renderShipModule };
+// try to place the ship, if the ship placement has an error try again.
+function randomShipPlacer(player, shipToPlace) {
+  const randomYValue = Math.floor(Math.random() * 7);
+  const randomXValue = Math.floor(Math.random() * 7);
+  const randomAxis = Math.floor(Math.random() * 2) === 0 ? "x" : "y";
+  if (
+    player.gameboard.placeShip(
+      `${shipToPlace}`,
+      randomYValue,
+      randomXValue,
+      randomAxis
+    ) === "error"
+  ) {
+    randomShipPlacer(player, shipToPlace);
+  }
+}
+
+export { renderShipModule, randomShipPlacer };

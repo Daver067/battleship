@@ -1,12 +1,59 @@
 @import "./scss/grid.scss";
 @import "./scss/placeShips";
+@import "./scss/newGame";
+@import "./scss/variableAndFunctions";
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+body {
+  height: 100vh;
+  width: 100vw;
+}
 
 h1 {
+  @include flexCenter(row);
   color: red;
+  height: 10%;
+  font-size: 3rem;
+  font-weight: weight(bold);
+}
+
+.container {
+  height: 90%;
+  width: 100%;
+}
+
+.boardTitle {
+  margin: -1em auto auto auto;
+  padding: 1.25em;
+  font-size: 1.25rem;
+}
+
+.turnInfo {
+  @include flexCenter(column);
+  height: 10%;
+  font-size: 1.5rem;
+  & > button {
+    padding: 0.5em;
+    font-size: 1.5rem;
+    display: block;
+    border-radius: 8px;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+.container > div {
+  height: 45%;
+  width: 100%;
+}
+
+.human,
+.computer {
+  display: flex;
+  flex-direction: column;
 }

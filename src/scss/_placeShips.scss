@@ -1,7 +1,6 @@
 @import "../scss/variableAndFunctions";
 
 .moduleBackground {
-  // @include flexCenter(row);
   position: absolute;
   top: 0;
   left: 0;
@@ -88,6 +87,13 @@
     text-align: center;
     padding: 0.5em 0 0 0;
   }
+  .errorMsg {
+    color: red;
+    font-size: 1.5rem;
+    background-color: #ff8f8f;
+    border-radius: 10px;
+    padding: 0;
+  }
 }
 
 #rotate {
@@ -102,31 +108,31 @@
 div {
   & .human {
     &[boat="carrier"] {
-      background-color: black;
+      background-color: rgb(223, 191, 87);
       &[shothere="true"] {
         background-color: red;
       }
     }
     &[boat="battleship"] {
-      background-color: black;
+      background-color: rgb(13, 148, 103);
       &[shothere="true"] {
         background-color: red;
       }
     }
     &[boat="cruiser"] {
-      background-color: black;
+      background-color: rgb(83, 13, 60);
       &[shothere="true"] {
         background-color: red;
       }
     }
     &[boat="sub"] {
-      background-color: black;
+      background-color: rgb(221, 122, 122);
       &[shothere="true"] {
         background-color: red;
       }
     }
     &[boat="patrolBoat"] {
-      background-color: black;
+      background-color: rgb(26, 95, 97);
       &[shothere="true"] {
         background-color: red;
       }
